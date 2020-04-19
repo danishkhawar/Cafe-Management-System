@@ -344,7 +344,7 @@ namespace FL_DL
                         }
 
                         customProperties.Form.TopMost = true;
-                        if(customProperties.DontShowMsgOnSave)
+                        if(!customProperties.DontShowMsgOnSave)
                             if (MessageBox.Show("Record has been saved successfully. Do you want to add another ", GlobalVariables.sMessageBox,
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                             {
