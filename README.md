@@ -18,7 +18,9 @@ Steps to create a new form
 1- Create Tables in the db
 
 2- Create two procedures 
+
    a- Procedure to save the data
+
    b- Procedure to Recall the data
 
 3- Add a new form and set the form properties, you can check frmDeals as a sample of master detail form.
