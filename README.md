@@ -2,13 +2,20 @@
 It is a simple POS System that can fit in any industry such as
  Resturant, Cafe, Saloon etc
 
+Updated Version 1.1.2 
+Version Update: In this version user can add new deals by the help of Deal Setup.. the deals will appear as Items on the main POS
+
+
 anyone can download, can make changes and can use this system free of cost.
 
 
 This system is developed with .Net Version 4.6 and SQL Server 2014.
 Please understand the classes before further development. The Solution has two projects, 
+
 1 - DAL - FL_DL
+
 2 - Front Later - Cafe_Management_System
+
 
 Cafe Management System accessing / manupluting data from DAL
 You just need to set the form properties and the default buttons will start working without writting any code
