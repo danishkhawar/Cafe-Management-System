@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPOS));
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.Timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblAppHeader = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.tsMainMenu = new System.Windows.Forms.ToolStripDropDownButton();
@@ -44,9 +44,7 @@
             this.saleReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.lblTime = new System.Windows.Forms.Label();
-            this.lblDate = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblAppVer = new System.Windows.Forms.Label();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.panel8 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -85,11 +83,12 @@
             this.pnlTable = new System.Windows.Forms.Panel();
             this.panel9 = new System.Windows.Forms.Panel();
             this.btnPrint = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.pnlItems = new System.Windows.Forms.Panel();
+            this.dealSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             this.panel8.SuspendLayout();
@@ -112,25 +111,23 @@
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
             // 
-            // label1
+            // lblAppHeader
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 50F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label1.Location = new System.Drawing.Point(286, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(882, 76);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Cafe Management Systems";
+            this.lblAppHeader.AutoSize = true;
+            this.lblAppHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 50F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAppHeader.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblAppHeader.Location = new System.Drawing.Point(12, 33);
+            this.lblAppHeader.Name = "lblAppHeader";
+            this.lblAppHeader.Size = new System.Drawing.Size(882, 76);
+            this.lblAppHeader.TabIndex = 0;
+            this.lblAppHeader.Text = "Cafe Management Systems";
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.panel1.Controls.Add(this.toolStrip2);
-            this.panel1.Controls.Add(this.lblTime);
-            this.panel1.Controls.Add(this.lblDate);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.lblAppVer);
+            this.panel1.Controls.Add(this.lblAppHeader);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -153,22 +150,23 @@
             // 
             this.tsMainMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsMainMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dealSetupToolStripMenuItem,
+            this.toolStripMenuItem2,
             this.accountSetupToolStripMenuItem,
             this.toolStripMenuItem1,
             this.itemCategoryToolStripMenuItem,
-            this.toolStripMenuItem2,
             this.toolStripMenuItem3});
             this.tsMainMenu.Image = ((System.Drawing.Image)(resources.GetObject("tsMainMenu.Image")));
             this.tsMainMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsMainMenu.Name = "tsMainMenu";
             this.tsMainMenu.Size = new System.Drawing.Size(38, 22);
-            this.tsMainMenu.Text = "&File";
+            this.tsMainMenu.Text = "Fil&e";
             // 
             // accountSetupToolStripMenuItem
             // 
             this.accountSetupToolStripMenuItem.Name = "accountSetupToolStripMenuItem";
             this.accountSetupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.accountSetupToolStripMenuItem.Text = "Account Setup";
+            this.accountSetupToolStripMenuItem.Text = "&Account Setup";
             this.accountSetupToolStripMenuItem.Click += new System.EventHandler(this.accountSetupToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
@@ -182,7 +180,7 @@
             // 
             this.itemCategoryToolStripMenuItem.Name = "itemCategoryToolStripMenuItem";
             this.itemCategoryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.itemCategoryToolStripMenuItem.Text = "Item Category";
+            this.itemCategoryToolStripMenuItem.Text = "Item &Category";
             this.itemCategoryToolStripMenuItem.Click += new System.EventHandler(this.itemCategoryToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
@@ -225,38 +223,16 @@
             this.toolStripButton1.Text = "E&xit";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
-            // lblTime
+            // lblAppVer
             // 
-            this.lblTime.AutoSize = true;
-            this.lblTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTime.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lblTime.Location = new System.Drawing.Point(6, 104);
-            this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(41, 13);
-            this.lblTime.TabIndex = 3;
-            this.lblTime.Text = "label4";
-            // 
-            // lblDate
-            // 
-            this.lblDate.AutoSize = true;
-            this.lblDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDate.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lblDate.Location = new System.Drawing.Point(1185, 103);
-            this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(41, 13);
-            this.lblDate.TabIndex = 2;
-            this.lblDate.Text = "label3";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Webdings", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label2.Location = new System.Drawing.Point(0, 33);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(274, 80);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "";
+            this.lblAppVer.AutoSize = true;
+            this.lblAppVer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAppVer.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblAppVer.Location = new System.Drawing.Point(1113, 103);
+            this.lblAppVer.Name = "lblAppVer";
+            this.lblAppVer.Size = new System.Drawing.Size(41, 13);
+            this.lblAppVer.TabIndex = 2;
+            this.lblAppVer.Text = "label3";
             // 
             // panel8
             // 
@@ -286,6 +262,7 @@
             // 
             this.gbRept.Controls.Add(this.rView);
             this.gbRept.Controls.Add(this.btnReportClose);
+            this.gbRept.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.gbRept.Location = new System.Drawing.Point(751, 81);
             this.gbRept.Name = "gbRept";
             this.gbRept.Size = new System.Drawing.Size(321, 442);
@@ -502,6 +479,7 @@
             // 
             // panel2
             // 
+            this.panel2.AutoScroll = true;
             this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.dgvOrderItems);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -661,7 +639,7 @@
             this.panel9.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel9.Controls.Add(this.btnPrint);
-            this.panel9.Controls.Add(this.button1);
+            this.panel9.Controls.Add(this.btnExit);
             this.panel9.Controls.Add(this.btnFind);
             this.panel9.Controls.Add(this.btnRefresh);
             this.panel9.Controls.Add(this.btnSave);
@@ -684,17 +662,17 @@
             this.btnPrint.UseVisualStyleBackColor = false;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
-            // button1
+            // btnExit
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button1.Location = new System.Drawing.Point(663, 8);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(167, 60);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "E&xit";
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnExit.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnExit.Location = new System.Drawing.Point(663, 8);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(167, 60);
+            this.btnExit.TabIndex = 3;
+            this.btnExit.Text = "E&xit";
+            this.btnExit.UseVisualStyleBackColor = false;
             // 
             // btnFind
             // 
@@ -743,6 +721,13 @@
             this.pnlItems.Size = new System.Drawing.Size(491, 753);
             this.pnlItems.TabIndex = 10;
             // 
+            // dealSetupToolStripMenuItem
+            // 
+            this.dealSetupToolStripMenuItem.Name = "dealSetupToolStripMenuItem";
+            this.dealSetupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dealSetupToolStripMenuItem.Text = "Deal Setup";
+            this.dealSetupToolStripMenuItem.Click += new System.EventHandler(this.dealSetupToolStripMenuItem_Click);
+            // 
             // frmPOS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -776,10 +761,9 @@
 
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Windows.Forms.Timer Timer1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblAppHeader;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label lblDate;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblAppVer;
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.Panel panel6;
@@ -798,7 +782,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripMenuItem itemCategoryToolStripMenuItem;
-        private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.ToolStripMenuItem accountSetupToolStripMenuItem;
         private System.Windows.Forms.Label lblNet_Amnt;
         private System.Windows.Forms.Label label7;
@@ -807,7 +790,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Button btnPrint;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnFind;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnSave;
@@ -834,5 +817,6 @@
         private System.Windows.Forms.GroupBox gbRept;
         private System.Windows.Forms.Button btnReportClose;
         private Microsoft.Reporting.WinForms.ReportViewer rView;
+        private System.Windows.Forms.ToolStripMenuItem dealSetupToolStripMenuItem;
     }
 }

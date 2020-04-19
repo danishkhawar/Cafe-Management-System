@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="BLL\ControlExtension.cs" />
     <Compile Include="BLL\frmAccount_cls.cs" />
+    <Compile Include="BLL\frmDeals_cls.cs" />
     <Compile Include="BLL\frmItemCategory_cls.cs" />
     <Compile Include="BLL\frmItem_cls.cs" />
     <Compile Include="BLL\frmPOS_cls.cs" />
@@ -71,6 +72,12 @@
     </Compile>
     <Compile Include="frmAccount.Designer.cs">
       <DependentUpon>frmAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDeals.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDeals.Designer.cs">
+      <DependentUpon>frmDeals.cs</DependentUpon>
     </Compile>
     <Compile Include="frmItem.cs">
       <SubType>Form</SubType>
@@ -98,11 +105,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="bin\Debug\Reports\rptReceipt.rdlc" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmAccount.resx">
       <DependentUpon>frmAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDeals.resx">
+      <DependentUpon>frmDeals.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmItem.resx">
       <DependentUpon>frmItem.cs</DependentUpon>
@@ -125,7 +136,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="bin\Debug\Reports\rptReceipt.rdlc" />
     <None Include="dsReport.xsc">
       <DependentUpon>dsReport.xsd</DependentUpon>
     </None>

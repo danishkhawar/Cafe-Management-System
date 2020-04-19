@@ -37,14 +37,17 @@ namespace Cafe_Management_Systems
             CustomFormProperties.FindButtonParameters = spParams;
             CustomFormProperties.FindButtonColSizes = ColSize;
             CustomFormProperties.AfterFind = "AfterFind";
+            CustomFormProperties.AfterRefresh = "AfterRefresh";
             CustomFormProperties.SaveGridView1 = dgvOrderItems;
             CustomFormProperties.AfterTableButtonClick = "AfterTableButtonClick";
-            CustomFormProperties.DontShowMsgOnSave = false;
 
             CustomFormProperties.FindButtonSearchIndex = 0;
             (new FL_DL.FormPresentationBLL()).SetFormTitleAndAuthorities(this, CustomFormProperties);
         }
         CustomFormProperties CustomFormProperties = new CustomFormProperties();
+
+        public void AfterRefresh()
+        { gbRept.Visible=false; }
 
         public void AfterFind() 
         { CalculateTotal(); }
@@ -62,6 +65,9 @@ namespace Cafe_Management_Systems
 
         private void frmPOS_Load(object sender, EventArgs e)
         {
+            lblAppHeader.Text = GlobalVariables.ssCompanyName;
+            lblAppVer.Text = "Version :" + GlobalVariables.sAppVersion;
+
             gbRept.Draggable(true);
             CreateItemButtons();
             DataGridSettings();
@@ -99,6 +105,25 @@ namespace Cafe_Management_Systems
             dgvOrderItems.Columns[colIndex].DataPropertyName = "ItemID";
             colIndex++;
 
+            dgvOrderItems.Columns.Add("DealID", "DealID");
+            dgvOrderItems.Columns[colIndex].Tag = "DealID";
+            dgvOrderItems.Columns[colIndex].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvOrderItems.Columns[colIndex].HeaderCell.Style.Font = new Font(dgvOrderItems.DefaultCellStyle.Font, FontStyle.Bold);
+            dgvOrderItems.Columns[colIndex].Width = 100;
+            dgvOrderItems.Columns[colIndex].Visible = false;
+            dgvOrderItems.Columns[colIndex].DataPropertyName = "DealID";
+            colIndex++;
+
+            dgvOrderItems.Columns.Add("DealName", "Deal");
+            dgvOrderItems.Columns[colIndex].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvOrderItems.Columns[colIndex].HeaderCell.Style.Font = new Font(dgvOrderItems.DefaultCellStyle.Font, FontStyle.Bold);
+            dgvOrderItems.Columns[colIndex].HeaderCell.Style.BackColor = Color.DarkGray;
+            dgvOrderItems.Columns[colIndex].ReadOnly = true;
+            dgvOrderItems.Columns[colIndex].Width = 40;
+            dgvOrderItems.Columns[colIndex].DataPropertyName = "DealName";
+            colIndex++;
+
+
             dgvOrderItems.Columns.Add("ItemName", "Item");
             dgvOrderItems.Columns[colIndex].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvOrderItems.Columns[colIndex].HeaderCell.Style.Font = new Font(dgvOrderItems.DefaultCellStyle.Font, FontStyle.Bold);
@@ -113,7 +138,7 @@ namespace Cafe_Management_Systems
             dgvOrderItems.Columns[colIndex].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvOrderItems.Columns[colIndex].HeaderCell.Style.Font = new Font(dgvOrderItems.DefaultCellStyle.Font, FontStyle.Bold);
             dgvOrderItems.Columns[colIndex].HeaderCell.Style.BackColor = Color.DarkGray;
-            dgvOrderItems.Columns[colIndex].Width = 50;
+            dgvOrderItems.Columns[colIndex].Width = 40;
             dgvOrderItems.Columns[colIndex].DataPropertyName = "SaleQnty";
             colIndex++;
 
@@ -135,12 +160,12 @@ namespace Cafe_Management_Systems
             dgvOrderItems.Columns[colIndex].DataPropertyName = "Tax_Perc";
             colIndex++;
 
-            dgvOrderItems.Columns.Add("Tax_Amnt", "Tax Amnt.");
+            dgvOrderItems.Columns.Add("Tax_Amnt", "Tax Amnt");
             dgvOrderItems.Columns[colIndex].Tag = "Tax_Amnt";
             dgvOrderItems.Columns[colIndex].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvOrderItems.Columns[colIndex].HeaderCell.Style.Font = new Font(dgvOrderItems.DefaultCellStyle.Font, FontStyle.Bold);
             dgvOrderItems.Columns[colIndex].HeaderCell.Style.BackColor = Color.DarkGray;
-            dgvOrderItems.Columns[colIndex].Width = 90;
+            dgvOrderItems.Columns[colIndex].Width = 80;
             //dgvOrderItems.Columns[colIndex].Visible = false;
             dgvOrderItems.Columns[colIndex].DataPropertyName = "Tax_Amnt";
             colIndex++;
@@ -178,8 +203,8 @@ namespace Cafe_Management_Systems
         int btnWidth = 92, btnHeight = 50;
         private void CreateItemButtons()
         {
-            DataTable dtItemCategory = (new frmItem_cls()).GetAll_ItemMaster().Tables[0];
-            DataView dv = dtItemCategory.DefaultView;
+            DataTable dtItemMaster = (new frmItem_cls()).GetAll_ItemMaster().Tables[0];
+            DataView dv = dtItemMaster.DefaultView;
             dv.Sort = "CatgName";
             DataTable dt = dv.ToTable();
             
@@ -188,7 +213,7 @@ namespace Cafe_Management_Systems
             string CatgName = "";
 
             int LineNo = 0, rindex = 0;
-            
+
             foreach (DataRow dRow in dt.Rows)
             {
 
@@ -207,7 +232,7 @@ namespace Cafe_Management_Systems
                     lblCatgName.AutoSize = true;
 
                     pnlItems.Controls.Add(lblCatgName);
-                    rindex=0;
+                    rindex = 0;
                     LineNo++;
                 }
 
@@ -217,7 +242,7 @@ namespace Cafe_Management_Systems
                 dynamicbutton.Name = "btn_" + rindex.ToString() + dRow["ShortName"].ToString();
                 dynamicbutton.Text = dRow["ShortName"].ToString();
 
-                dynamicbutton.Tag = dRow["ID"].ToString() + "Tax_Perc"  + (dRow["Tax_Perc"].ToString() == "" ? "0": dRow["Tax_Perc"].ToString()) + "rate" + dRow["SalePrice"].ToString() + "name" + dRow["ItemName"].ToString();
+                dynamicbutton.Tag = dRow["ID"].ToString() + "Tax_Perc" + (dRow["Tax_Perc"].ToString() == "" ? "0" : dRow["Tax_Perc"].ToString()) + "rate" + dRow["SalePrice"].ToString() + "name" + dRow["ItemName"].ToString();
                 dynamicbutton.Width = btnWidth;
                 dynamicbutton.Height = btnHeight;
                 dynamicbutton.ForeColor = Color.White;
@@ -226,18 +251,79 @@ namespace Cafe_Management_Systems
 
                 dynamicbutton.FlatStyle = FlatStyle.Flat;
                 dynamicbutton.FlatAppearance.MouseOverBackColor = Color.DarkGray;
-                
+
 
                 //dynamicbutton.Mouseh += new EventHandler(ItemButton_MouseHover);
                 //dynamicbutton.MouseLeave += new EventHandler(ItemButton_MouseLeave);
 
                 ToolTip tlpBtn = new ToolTip();
                 tlpBtn.SetToolTip(dynamicbutton, dRow["ItemName"].ToString());
-                                
+
                 pnlItems.Controls.Add(dynamicbutton);
                 rindex++;
                 if (rindex % 5 == 0)
-                { 
+                {
+                    LineNo++;
+                    rindex = 0;
+                }
+
+                
+            }
+            ////deal buttons
+            ///////////
+            /////////   
+
+            LineNo++;
+
+            //CatgName = "Today's Deals"; //dRow["CatgName"].ToString();
+            Label lblDeals = new Label();
+            lblDeals.Text = "Today's Deals";
+            lblDeals.Name = "CatgDeals";
+            lblDeals.ForeColor = Color.White;
+            lblDeals.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Bold);
+            lblDeals.Location = new Point(10, (LineNo * btnHeight) + 30);
+            lblDeals.AutoSize = true;
+
+            pnlItems.Controls.Add(lblDeals);
+            rindex = 0;
+            LineNo++;
+
+
+            DataTable dtDeals = (new frmDeals_cls()).GetAll_Deals().Tables[0];
+            dv = dtDeals.DefaultView;
+            dv.Sort = "DealPerson";
+            DataTable dtdeal = dv.ToTable();
+
+
+            dynamicbutton = new Button();
+
+
+            foreach (DataRow dRowdeal in dtdeal.Rows)
+            {
+
+                dynamicbutton = new Button();
+                dynamicbutton.Click += new EventHandler(ItemButton_Click);
+                //dynamicbutton.Click += new CommandEventHandler(dynamicbutton_Click);
+                dynamicbutton.Name = "btn_" + rindex.ToString() + dRowdeal["DealName"].ToString();
+                dynamicbutton.Text = dRowdeal["DealName"].ToString();
+
+                dynamicbutton.Tag = "Deal_" + dRowdeal["ID"].ToString();
+                dynamicbutton.Width = btnWidth;
+                dynamicbutton.Height = btnHeight;
+                dynamicbutton.ForeColor = Color.White;
+                dynamicbutton.FlatAppearance.BorderColor = Color.DarkGray;
+                dynamicbutton.Location = new Point((rindex * btnWidth) + 10, (LineNo * btnHeight) + 15);
+
+                dynamicbutton.FlatStyle = FlatStyle.Flat;
+                dynamicbutton.FlatAppearance.MouseOverBackColor = Color.DarkGray;
+
+                ToolTip tlpBtn = new ToolTip();
+                tlpBtn.SetToolTip(dynamicbutton, dRowdeal["DealDescription"].ToString());
+
+                pnlItems.Controls.Add(dynamicbutton);
+                rindex++;
+                if (rindex % 5 == 0)
+                {
                     LineNo++;
                     rindex = 0;
                 }
@@ -300,74 +386,159 @@ namespace Cafe_Management_Systems
         private void ItemButton_Click(object sender, EventArgs e)
         {
             //dynamicbutton.Tag = dRow["ID"].ToString() + "rate" + dRow["SalePrice"].ToString() + "name" + dRow["ItemName"].ToString();
-               
+
             string ButtonTag = ((Button)sender).Tag.ToString();
+            string ButtonText = ((Button)sender).Text.ToString();
             string _ItemShortName = ((Button)sender).Text;
-            string _ItemID = ButtonTag.Substring(0, ButtonTag.IndexOf("Tax_Perc"));
-            string _SalePrice = ButtonTag.Substring(ButtonTag.IndexOf("rate") + 4, ButtonTag.IndexOf("name") - (ButtonTag.IndexOf("rate") +4)).ToString();
-            string _Tax_Perc = ButtonTag.Substring(ButtonTag.IndexOf("Tax_Perc") + 8, ButtonTag.IndexOf("rate") - (ButtonTag.IndexOf("Tax_Perc") + 8)).ToString();
-            string _ItemName = ButtonTag.Substring(ButtonTag.IndexOf("name") + 4);
 
-            float _Tax_Amnt = _Tax_Perc == string.Empty ? 0 : (float.Parse(_Tax_Perc) * float.Parse(_SalePrice) / 100);
-            float _Net_Price = _Tax_Amnt == 0 ? float.Parse(_SalePrice) :  (float.Parse(_Tax_Perc) * float.Parse(_SalePrice) /100) + float.Parse(_SalePrice);
-
-
-
-            bool isPresent = false;
-            //string subItemID = ButtonTag.Substring(0, ButtonTag.IndexOf("__"));
-
-            //DataTable dtPrevItems = (DataTable) dgvOrderItems.DataSource;
-            
-            foreach (DataGridViewRow dgvRow in dgvOrderItems.Rows)
+            if (ButtonTag.StartsWith("Deal_"))
             {
+                ///deal items
+                ///
+                string _DealID = ButtonTag.Substring(ButtonTag.IndexOf("Deal_") + 5);
 
-                if(dgvRow.Cells["ItemID"].Value != null)
+                DataTable dtDeal = (new frmDeals_cls()).GetAll_Deals(_DealID).Tables[1];
+
+                foreach (DataRow drDeal in dtDeal.Rows)
                 {
-                    if (dgvRow.Cells["ItemID"].Value.ToString() == _ItemID)
-                    {
-                        isPresent = true;
-                        dgvRow.Cells["SaleQnty"].Value = (int.Parse(dgvRow.Cells["SaleQnty"].Value.ToString()) + 1).ToString();
-                        dgvRow.Cells["Tax_Perc"].Value = _Tax_Perc;
-                        dgvRow.Cells["Tax_Amnt"].Value = _Tax_Amnt;
+                    string _ItemID = drDeal["ItemID"].ToString();
+                    string _SalePrice = drDeal["DealPrice"].ToString();
+                    string _Tax_Perc = drDeal["Tax_Perc"].ToString();
+                    string _ItemName = drDeal["ItemName"].ToString();
+                    string _DealName = ButtonText;
 
-                        dgvRow.Cells["SaleAmnt"].Value = (_Net_Price * float.Parse(dgvRow.Cells["SaleQnty"].Value.ToString())).ToString();
-                        //   float.Parse(dgvRow.Cells["OrderAmount"].Value.ToString()) +
-                        //float.Parse(ButtonTag.Substring(ButtonTag.IndexOf("**") + 2))).ToString();
+                    float _Tax_Amnt = _Tax_Perc == string.Empty ? 0 : (float.Parse(_Tax_Perc) * float.Parse(_SalePrice) / 100);
+                    float _Net_Price = _Tax_Amnt == 0 ? float.Parse(_SalePrice) : (float.Parse(_Tax_Perc) * float.Parse(_SalePrice) / 100) + float.Parse(_SalePrice);
+
+
+
+                    bool isPresent = false;
+
+                    foreach (DataGridViewRow dgvRow in dgvOrderItems.Rows)
+                    {
+
+                        if (dgvRow.Cells["DealID"].Value != null)
+                        {
+                            if (dgvRow.Cells["DealID"].Value.ToString() == _DealID && dgvRow.Cells["ItemID"].Value.ToString() == _ItemID)
+                            {
+                                isPresent = true;
+                                dgvRow.Cells["SaleQnty"].Value = (int.Parse(dgvRow.Cells["SaleQnty"].Value.ToString()) + 1).ToString();
+                                dgvRow.Cells["Tax_Perc"].Value = _Tax_Perc;
+                                dgvRow.Cells["Tax_Amnt"].Value = _Tax_Amnt * float.Parse(dgvRow.Cells["SaleQnty"].Value.ToString());
+
+                                dgvRow.Cells["SaleAmnt"].Value = (_Net_Price * float.Parse(dgvRow.Cells["SaleQnty"].Value.ToString())).ToString();
+                                //   float.Parse(dgvRow.Cells["OrderAmount"].Value.ToString()) +
+                                //float.Parse(ButtonTag.Substring(ButtonTag.IndexOf("**") + 2))).ToString();
+                            }
+                        }
+                    }
+                    if (!isPresent)
+                    {
+
+                        object[] cellValues = new object[10];
+                        cellValues[0] = "0";
+                        cellValues[1] = _ItemID;
+                        cellValues[2] = _DealID;
+                        cellValues[3] = ButtonText;
+                        cellValues[4] = _ItemName;
+                        cellValues[5] = 1; //qnty
+                        cellValues[6] = _SalePrice; //price
+                        cellValues[7] = _Tax_Perc; //Tax Perc
+                        cellValues[8] = _Tax_Amnt; //tax Amount
+                        cellValues[9] = _Net_Price * 1; //Amount
+
+
+                        //cellValues[6] = "0";
+
+                        dgvOrderItems.Rows.Add(cellValues);
+
+                        //dgvOrderItems.Rows.Add(cellValues);
+
+                    }
+
+                }
+
+            }
+            else
+            {
+                ////single items
+                string _ItemID = ButtonTag.Substring(0, ButtonTag.IndexOf("Tax_Perc"));
+                string _SalePrice = ButtonTag.Substring(ButtonTag.IndexOf("rate") + 4, ButtonTag.IndexOf("name") - (ButtonTag.IndexOf("rate") + 4)).ToString();
+                string _Tax_Perc = ButtonTag.Substring(ButtonTag.IndexOf("Tax_Perc") + 8, ButtonTag.IndexOf("rate") - (ButtonTag.IndexOf("Tax_Perc") + 8)).ToString();
+                string _ItemName = ButtonTag.Substring(ButtonTag.IndexOf("name") + 4);
+
+                float _Tax_Amnt = _Tax_Perc == string.Empty ? 0 : (float.Parse(_Tax_Perc) * float.Parse(_SalePrice) / 100);
+                float _Net_Price = _Tax_Amnt == 0 ? float.Parse(_SalePrice) : (float.Parse(_Tax_Perc) * float.Parse(_SalePrice) / 100) + float.Parse(_SalePrice);
+
+
+
+                bool isPresent = false;
+                //string subItemID = ButtonTag.Substring(0, ButtonTag.IndexOf("__"));
+
+                //DataTable dtPrevItems = (DataTable) dgvOrderItems.DataSource;
+
+                foreach (DataGridViewRow dgvRow in dgvOrderItems.Rows)
+                {
+
+                    if (dgvRow.Cells["DealID"].Value == null && dgvRow.Cells["DealID"].Value == string.Empty && dgvRow.Cells["DealID"].Value != "0")
+                    {
+                        if (dgvRow.Cells["ItemID"].Value != null)
+                        {
+                            if (dgvRow.Cells["ItemID"].Value.ToString() == _ItemID)
+                            {
+                                isPresent = true;
+                                dgvRow.Cells["SaleQnty"].Value = (int.Parse(dgvRow.Cells["SaleQnty"].Value.ToString()) + 1).ToString();
+                                dgvRow.Cells["Tax_Perc"].Value = _Tax_Perc;
+                                dgvRow.Cells["Tax_Amnt"].Value = _Tax_Amnt * float.Parse(dgvRow.Cells["SaleQnty"].Value.ToString());
+
+                                dgvRow.Cells["SaleAmnt"].Value = (_Net_Price * float.Parse(dgvRow.Cells["SaleQnty"].Value.ToString())).ToString();
+                                //   float.Parse(dgvRow.Cells["OrderAmount"].Value.ToString()) +
+                                //float.Parse(ButtonTag.Substring(ButtonTag.IndexOf("**") + 2))).ToString();
+                            }
+                        }
                     }
                 }
+                if (!isPresent)
+                {
+
+                    object[] cellValues = new object[10];
+                    cellValues[0] = "0";
+                    cellValues[1] = _ItemID;
+                    cellValues[2] = "0";
+                    cellValues[3] = "N/A";
+                    cellValues[4] = _ItemName;
+                    cellValues[5] = 1; //qnty
+                    cellValues[6] = _SalePrice; //price
+                    cellValues[7] = _Tax_Perc; //Tax Perc
+                    cellValues[8] = _Tax_Amnt; //tax Amount
+                    cellValues[9] = _Net_Price * 1; //Amount
+
+
+                    //cellValues[6] = "0";
+
+                    dgvOrderItems.Rows.Add(cellValues);
+
+                    //dgvOrderItems.Rows.Add(cellValues);
+
+                }
+                //dgvOrderItems.DataSource = dtPrevItems;
             }
-            if (!isPresent)
-            {
-                
-                object[] cellValues = new object[8];
-                cellValues[0] = "0";
-                cellValues[1] = _ItemID;
-                cellValues[2] = _ItemName;
-                cellValues[3] = 1; //qnty
-                cellValues[4] = _SalePrice; //price
-                cellValues[5] = _Tax_Perc; //Tax Perc
-                cellValues[6] = _Tax_Amnt; //tax Amount
-                cellValues[7] = _Net_Price * 1; //Amount
 
 
-                //cellValues[6] = "0";
-
-                dgvOrderItems.Rows.Add(cellValues);
-
-                //dgvOrderItems.Rows.Add(cellValues);
-
-            }
-            //dgvOrderItems.DataSource = dtPrevItems;
-            
             CalculateTotal();
 
             if (!chkDelivery.Checked)
             {
                 IsNotBilled = true;
+                CustomFormProperties.DontShowMsgOnSave = true;
                 btnSave.PerformClick();
                 SaveMethod();
+
+                CustomFormProperties.DontShowMsgOnSave = false;
+
                 IsNotBilled = false;
             }
+
         }
 
         private bool IsNotBilled
@@ -387,6 +558,10 @@ namespace Cafe_Management_Systems
                 Amnt = Amnt + (float.Parse(dgvOrderItems.Rows[i].Cells["SaleQnty"].Value.ToString()) * float.Parse(dgvOrderItems.Rows[i].Cells["SalePrice"].Value.ToString()));
                 Tax_Amnt = Tax_Amnt + float.Parse(dgvOrderItems.Rows[i].Cells["Tax_Amnt"].Value.ToString());
 
+                if (dgvOrderItems.Rows[i].Cells["DealID"].Value != null)
+                    if (dgvOrderItems.Rows[i].Cells["DealID"].Value != string.Empty)
+                        if (dgvOrderItems.Rows[i].Cells["DealID"].Value.ToString() != "0")
+                            dgvOrderItems.Rows[i].DefaultCellStyle.BackColor = Color.Pink;
             }
             lblAmnt.Text = Amnt.ToString();
             lblTaxAmnt.Text = Tax_Amnt.ToString();
@@ -614,6 +789,12 @@ namespace Cafe_Management_Systems
                 }
                 CalculateTotal();
             }
+        }
+
+        private void dealSetupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmDeals frm = new frmDeals();
+            frm.ShowDialog();
         }
 
 

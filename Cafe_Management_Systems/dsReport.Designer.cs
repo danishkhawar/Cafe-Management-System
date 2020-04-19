@@ -701,6 +701,8 @@ namespace Cafe_Management_Systems {
             
             private global::System.Data.DataColumn columnSaleAmnt;
             
+            private global::System.Data.DataColumn columnPrintItem;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public SaleDetailDataTable() {
@@ -792,6 +794,14 @@ namespace Cafe_Management_Systems {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PrintItemColumn {
+                get {
+                    return this.columnPrintItem;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -827,7 +837,7 @@ namespace Cafe_Management_Systems {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public SaleDetailRow AddSaleDetailRow(string ItemID, string ItemName, string SaleQnty, string SalePrice, string Tax_Perc, string Tax_Amnt, string SaleAmnt) {
+            public SaleDetailRow AddSaleDetailRow(string ItemID, string ItemName, string SaleQnty, string SalePrice, string Tax_Perc, string Tax_Amnt, string SaleAmnt, string PrintItem) {
                 SaleDetailRow rowSaleDetailRow = ((SaleDetailRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ItemID,
@@ -836,7 +846,8 @@ namespace Cafe_Management_Systems {
                         SalePrice,
                         Tax_Perc,
                         Tax_Amnt,
-                        SaleAmnt};
+                        SaleAmnt,
+                        PrintItem};
                 rowSaleDetailRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowSaleDetailRow);
                 return rowSaleDetailRow;
@@ -866,6 +877,7 @@ namespace Cafe_Management_Systems {
                 this.columnTax_Perc = base.Columns["Tax_Perc"];
                 this.columnTax_Amnt = base.Columns["Tax_Amnt"];
                 this.columnSaleAmnt = base.Columns["SaleAmnt"];
+                this.columnPrintItem = base.Columns["PrintItem"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -885,6 +897,8 @@ namespace Cafe_Management_Systems {
                 base.Columns.Add(this.columnTax_Amnt);
                 this.columnSaleAmnt = new global::System.Data.DataColumn("SaleAmnt", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSaleAmnt);
+                this.columnPrintItem = new global::System.Data.DataColumn("PrintItem", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPrintItem);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1434,6 +1448,22 @@ namespace Cafe_Management_Systems {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string PrintItem {
+                get {
+                    try {
+                        return ((string)(this[this.tableSaleDetail.PrintItemColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PrintItem\' in table \'SaleDetail\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSaleDetail.PrintItemColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsItemIDNull() {
                 return this.IsNull(this.tableSaleDetail.ItemIDColumn);
             }
@@ -1514,6 +1544,18 @@ namespace Cafe_Management_Systems {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetSaleAmntNull() {
                 this[this.tableSaleDetail.SaleAmntColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsPrintItemNull() {
+                return this.IsNull(this.tableSaleDetail.PrintItemColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetPrintItemNull() {
+                this[this.tableSaleDetail.PrintItemColumn] = global::System.Convert.DBNull;
             }
         }
         
