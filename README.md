@@ -37,4 +37,4 @@ Steps to create a new form
 5- the name of save, reset, find and exit buttons should be same as frmDeals.
 
 
-It is strongly recomended to follow the sample form(frmDeals) for CRUD 
+It is strongly recomended to follow the sample form(frmDeals) to automdate the CRUD 
